@@ -1,0 +1,22 @@
+var canPartition = function(nums) {
+    let totalSums = 0;
+    nums.forEach(num => totalSums = totalSums + num)
+    if (totalSums % 2 != 0) {
+     return false;
+    }
+    return findwhetherpartition(0, totalSums/2, nums, {})
+};
+
+
+var findwhetherpartition = (currentIndex, targetSum, nums, memo) => {
+    if (targetSum == 0) return true;
+    if (currentIndex >= nums.length) return false;
+    const currentKey = currentIndex + '-' + targetSum;
+    if (memo[currentKey]) return memo[currentKey];
+    let consider=false;
+    if (nums[currentIndex] <= targetSum) consider = findwhetherpartition(currentIndex+1, targetSum-nums[currentIndex], nums, memo)
+    const notConsider = findwhetherpartition(currentIndex+1, targetSum, nums, memo)
+    memo[currentKey] = consider || notConsider;
+    if (memo[currentKey] === true) return true;
+    return memo[currentKey];
+}
