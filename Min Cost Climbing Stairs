@@ -1,0 +1,23 @@
+/**
+ * @param {number[]} cost
+ * @return {number}
+ */
+const minCostClimbingStairs = function(cost) {
+    const memo = {}
+    return Math.min(minCost(0, cost, memo), memo[1])
+};
+
+
+const minCost = (currentIndex, cost, memo) => {
+    if (currentIndex == cost.length) return 0;
+    if (currentIndex > cost.length) return 1001;
+    const currentKey = currentIndex;
+    if (memo[currentKey]) return memo[currentKey];
+    
+    const oneJump = cost[currentIndex] + minCost(currentIndex+1, cost, memo)
+    const twoJump = cost[currentIndex] + minCost(currentIndex+2, cost, memo)
+    
+    memo[currentKey] = Math.min(oneJump, twoJump)
+    return memo[currentKey];
+    
+}
