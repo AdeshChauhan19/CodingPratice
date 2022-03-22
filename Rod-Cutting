@@ -1,0 +1,21 @@
+const cutRod = (price, l) => {
+    return maxProfit(price, l, 0, {})
+}
+
+const maxProfit = (price, totalLength, currentIndex, memo) => {
+    if (totalLength == 0) return 0;
+    if (currentIndex > price.length) return 0;
+    
+    let currentKey = currentIndex + '-' + totalLength;
+    
+    if (memo[currentKey]) return  memo[currentKey];
+    
+    let consider = 0;
+    let currentRodLength = currentIndex + 1;
+    
+    if (currentRodLength <= totalLength) consider = price[currentIndex] + maxProfit(price, totalLength - currentRodLength, currentIndex, memo)
+    const notConsider =  maxProfit(price, totalLength, currentIndex+1, memo)
+    
+    memo[currentKey] = Math.max(consider, notConsider);
+    return memo[currentKey];
+}
