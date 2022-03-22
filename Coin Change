@@ -1,0 +1,29 @@
+var coinChange = function(coins, amount) {
+    const ans = minCoin(coins, amount, 0, {})
+    if (ans == 10001) return -1;
+    
+    return ans;
+};
+
+var minCoin = (coins, amount, currentCoin, memo) => {
+    if (amount == 0) return 0;
+    if (currentCoin == coins.length) return 10001;
+    
+    let currentKey = currentCoin + '-' + amount;
+    
+    if (memo[currentKey]) return memo[currentKey];
+    
+    let consider = 10001;
+    
+    let currentCointValue = coins[currentCoin]
+    
+    if (currentCointValue <= amount)
+        consider = 1 + minCoin(coins, amount - currentCointValue, currentCoin, memo);
+    
+    const notConsider = minCoin(coins, amount, currentCoin +1 , memo);
+    
+    memo[currentKey] = Math.min(consider, notConsider);
+    
+    return memo[currentKey];
+    
+}
