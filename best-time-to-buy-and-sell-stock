@@ -1,0 +1,28 @@
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    return maximunProfit(prices, 0, true, true, {})
+};
+
+const maximunProfit = (prices, currentDay, canBuy, transactionCount, memo) => {
+    if (currentDay >= prices.length || !transactionCount) return 0;
+    
+    const currentKey = currentDay + '-' + canBuy + '-' + transactionCount
+    
+    if(memo[currentKey]) return memo[currentKey];
+    let ans;
+    
+    const idle = maximunProfit(prices, currentDay+1, canBuy, transactionCount, memo);
+    
+    if (canBuy) {
+        const buy = -prices[currentDay] + maximunProfit(prices, currentDay+1, false, transactionCount, memo)
+        ans = Math.max(idle, buy)
+    } else {
+        const sell = prices[currentDay] + maximunProfit(prices, currentDay+1, true, false, memo)
+        ans = Math.max(idle, sell)
+    }
+    memo[currentKey] = ans;
+    return memo[currentKey];
+}
