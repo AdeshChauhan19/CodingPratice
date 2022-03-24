@@ -1,0 +1,17 @@
+var rob = function(nums) {
+    return maxProfit(nums, 0, {});
+};
+
+const maxProfit = (nums, currentIndex, memo) => {
+    if(currentIndex >= nums.length) return 0;
+    
+    const currentKey = currentIndex;
+    
+    if(memo[currentKey]) return memo[currentKey];
+    
+    const rob = nums[currentIndex] + maxProfit(nums, currentIndex +2, memo);
+    const notRob = maxProfit(nums, currentIndex +1, memo);
+    memo[currentKey] = Math.max(rob, notRob);
+    return memo[currentKey];
+    
+}
